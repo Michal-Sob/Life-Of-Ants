@@ -4,19 +4,31 @@ using System.Text;
 
 namespace LifeOfAnts
 {
-	public class Queen : Ant
+	public class Queen
 	{
-        private static volatile Queen SoleInstance = new Queen();
 
-        private Queen()
-			:base()
+		public readonly int X;
+		public readonly int Y;
+
+        private static volatile Queen SoleInstance = new Queen(25, 25);
+
+        private Queen(int x, int y)
 		{
-
+			X = x;
+			Y = y;
 		}
 
         public static Queen GetInstance()
 		{
             return SoleInstance;
+		}
+
+		public bool Mood()
+		{
+
+
+
+			return true;
 		}
 	}
 }

@@ -23,12 +23,23 @@ namespace LifeOfAnts
             return SoleInstance;
 		}
 
+		private bool _firstTime = true;
+		private int _lastMating;
+
 		public bool Mood()
 		{
+			int CurrentMating;
 
+			if (_firstTime)
+			{
+				_firstTime = false;
+				_lastMating = Program.Timestamp;
+				return true;
+			}
 
+			CurrentMating = Program.Timestamp;
 
-			return true;
+			return CurrentMating - _lastMating > 150 || CurrentMating - _lastMating < 10;
 		}
 	}
 }

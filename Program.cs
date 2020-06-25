@@ -7,10 +7,10 @@ namespace LifeOfAnts
 	class Program
 	{
 		private static Map _map;
+		private static Timer aTimer;
 
-		public int Timestamp { get; private set; }
-		public static List<IMovable> AllMovable = new List<IMovable>();
-
+		public static int Timestamp { get; private set; }
+		public static List<IMovable> AllMovables = new List<IMovable>();
 
 		static void Main(string[] args)
 		{
@@ -19,13 +19,10 @@ namespace LifeOfAnts
 			Map Map = new Map(50, 50);
 			_map = Map;
 
-			Queen Queen = Queen.GetInstance();
-
-			Drone Drone1 = new Drone(rnd.Next(1, 50), rnd.Next(1, 50), _map.Board);
-			AllMovable.Add(Drone1);
-
-			Worker Worker1 = new Worker(rnd.Next(1, 50), rnd.Next(1, 50), _map.Board);
-			AllMovable.Add(Worker1);
+			_ = new Drone(rnd.Next(1, 50), rnd.Next(1, 50), _map);
+			_ = new Drone(rnd.Next(1, 50), rnd.Next(1, 50), _map);
+			_ = new Worker(rnd.Next(1, 50), rnd.Next(1, 50), _map);
+			_ = new Soldier(rnd.Next(1, 49), rnd.Next(1, 49), _map);
 
 			SetTimer();
 
@@ -33,22 +30,7 @@ namespace LifeOfAnts
 			aTimer.Stop();
 			aTimer.Dispose();
 
-
-
-
-			for (int i = 0; i < 50; i++)
-			{
-				Console.Clear();
-
-				Drone1.Move(Map.Board);
-
-				Map.DisplayMap();
-
-				System.Threading.Thread.Sleep(1000);
-			}
 		}
-
-		private static Timer aTimer;
 
 		public static void SetTimer()
 		{
@@ -59,16 +41,21 @@ namespace LifeOfAnts
 			aTimer.Elapsed += OnTimedEvent;
 			aTimer.AutoReset = true;
 			aTimer.Enabled = true;
+
+			Timestamp = 0;
 		}
 
 		private static void OnTimedEvent(object source, ElapsedEventArgs e)
 		{
-			Console.Clear();
-			Console.WriteLine("To quit press any key");
+			Timestamp++;
 
-			foreach (IMovable ant in AllMovable)
+			Console.Clear();
+			Console.WriteLine("Press Enter to quit");
+
+			Console.WriteLine(source);
+			foreach (IMovable ant in AllMovables)
 			{
-				ant.Move(_map.Board);
+				ant.Move(_map);
 			}
 
 			_map.DisplayMap();

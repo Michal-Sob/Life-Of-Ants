@@ -6,6 +6,6 @@ namespace LifeOfAnts
 {
 	public interface IMovable
 	{
-		(int, int) Move(string[,] map);
+		void Move(Map map);
 	}
 }

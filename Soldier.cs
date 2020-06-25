@@ -4,16 +4,49 @@ using System.Text;
 
 namespace LifeOfAnts
 {
-	class Soldier:Ant, IMovable
+	class Soldier : Ant, IMovable
 	{
-		public Soldier(int x, int y, string[,] map) : base(x, y, map)
+		//private int _x;
+		//private int _y;
+
+		public Soldier(int x, int y, Map map) : base(x, y, map)
 		{
-			map[x, y] = "S";
+			_x = x;
+			_y = y;
+
+			Program.AllMovables.Add(this);
+
+			map.Board[x, y] = "S";
 		}
 
-		public override (int, int) Move(string[,] map)
+		private int _soldierTimeStamp = 1;
+
+		public override void Move(Map map)
 		{
-			return (1, 1);
+			map.Board[_x, _y] = "O";
+
+			if (_soldierTimeStamp == 5)
+			{
+				_soldierTimeStamp = 0;
+
+			}
+			Console.WriteLine(_soldierTimeStamp);
+
+			if (_soldierTimeStamp == 4)
+				_x--;
+
+			else if (_soldierTimeStamp == 3)
+				_y--;
+
+			else if (_soldierTimeStamp == 2)
+				_x++;
+
+			else
+				_y++;
+
+			map.Board[_x, _y] = "S";
+
+			_soldierTimeStamp++;
 		}
 	}
 }
